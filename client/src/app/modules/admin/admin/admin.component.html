@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <ng-container *ngIf="!user">
+                <h1 class="text-center">You do not have permission to view this page.</h1>
+                <div class="text-center"><a role="button" (click)="logout()">Back to Login</a></div>
+            </ng-container>
+            <ng-container *ngIf="user">
+                <div class="float-right mt-3"><a role="button" (click)="logout()">Back to Login</a></div>
+                <router-outlet></router-outlet>
+            </ng-container>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+<ng-container *ngIf="!loaded">
+    <h1 class="mt-3">Loading data</h1>
+</ng-container>
+<ng-container *ngIf="loaded">
+    <h1 class="mt-3">Your Quizzes</h1>
+    <div class="mb-3 text-danger" *ngIf="error">{{error}}</div>
+    <div class="mb-3">
+        <button class="btn btn-primary" (click)="createQuiz()">Create new quiz</button>
+    </div>
+    <div class="list">
+        <div *ngFor="let quiz of quizzes" class="p-2 mb-1 border border-primary">
+            <div class="container">
+                <div class="row" *ngIf="!quiz.deleting">
+                    <div class="col-3">
+                        {{quiz.title}}
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-primary" *ngIf="!quiz.published" (click)="editQuiz(quiz)">Edit Draft</button>
+                        <span class="text-success" *ngIf="quiz.published">Published</span>
+                    </div>
+                    <div class="col-4">
+                        <button class="btn btn-success" *ngIf="!quiz.published" (click)="publishQuiz(quiz)">Publish</button>
+                        <ng-container *ngIf="quiz.published">
+                            <button class="btn btn-success me-2" (click)="copyToClipboard(quiz)">
+                                {{quiz.copying ? "Copied!" : "Copy Link"}}
+                            </button>
+                            <a routerLink="/quiz/{{quiz.id}}" href="">{{fullPathToQuiz(quiz.id)}}</a>
+                        </ng-container>
+                    </div>
+                    <div class="col-3">
+                        <button *ngIf="!quiz.deleteOk" class="btn btn-danger" (click)="quiz.deleteOk = true;">Delete</button>
+                        <ng-container *ngIf="quiz.deleteOk">
+                            <button class="btn btn-secondary me-2" (click)="quiz.deleteOk = false;">Cancel</button>
+                            <button class="btn btn-danger" (click)="deleteQuiz(quiz)">Confirm Delete</button>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="row" *ngIf="quiz.deleting">
+                    <span>Deleting...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>

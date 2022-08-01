@@ -1,0 +1,7 @@
+<h1 class="mt-3">Edit Quiz</h1>
+<ng-container *ngIf="!quiz">
+    Loading quiz data...
+</ng-container>
+<ng-container *ngIf="quiz">
+    <app-quiz-builder [quiz]="quiz"></app-quiz-builder>
+</ng-container>

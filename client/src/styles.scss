@@ -1,0 +1,23 @@
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.float-right {float: right;}
+.float-left {float:left;}
+.text-strong{font-weight: bold;}
+.text-clickable{
+    border: 1px solid #ccc;
+    background: #eee;
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 10px;
+}
+input[type="checkbox"],
+input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    position: relative;
+    top: 5px;
+}

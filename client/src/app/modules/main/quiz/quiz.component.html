@@ -1,0 +1,55 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <ng-container *ngIf="user">
+                <div class="float-right mt-3"><span role="button" routerLink="/admin">Back to Admin</span></div>
+            </ng-container>
+            <ng-container *ngIf="!loaded">
+                <h1 class="mt-3">Loading quiz...</h1>
+            </ng-container>
+            <ng-container *ngIf="loaded && !checking && !done">
+                <ng-container *ngIf="error">
+                    <h1 class="text-danger mt-3">{{error}}</h1>
+                </ng-container>
+                <ng-container *ngIf="quiz">
+                    <form [formGroup]="quizForm">
+                        <h1 class="mt-3">{{quiz.title}}</h1>
+                        <div formArrayName="questions" *ngFor="let question of getQuestionControls(); let i = index;">
+                            <div formGroupName="{{i}}" class="border border-secondary p-3 mb-3 question">
+                                <p>Question {{i + 1}}</p>
+                                <p>{{question.value.text}}</p>
+                                <ng-container *ngIf="question.value.allAnswers">
+                                    <div>Select all correct answers</div>
+                                    <div formArrayName="answers"
+                                        *ngFor="let answer of getAnswerControls(question); let idx = index;">
+                                        <div formGroupName="{{idx}}" class="answer">
+                                            <input type="checkbox" class="me-2" formControlName="selected">
+                                            <span>{{answer.value.text}}</span>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="!question.value.allAnswers">
+                                    <div>Select one answer</div>
+                                    <div *ngFor="let answer of getAnswerControls(question); let idx = index;">
+                                        <div class="answer">
+                                            <input type="radio" class="me-2" value="{{idx}}" formControlName="selected">
+                                            <span>{{answer.value.text}}</span>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary mb-3" (click)="submit()">Submit</button>
+                    </form>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="checking">
+                <h1 class="mt-3">Checking answers...</h1>
+            </ng-container>
+            <ng-container *ngIf="quiz && done">
+                <h1 class="mt-3">You answered {{totalCorrect}}/{{quiz.questions.length}} questions correctly.</h1>
+                <button class="btn btn-secondary" (click)="reset()">Take the quiz again?</button>
+            </ng-container>
+        </div>
+    </div>
+</div>
